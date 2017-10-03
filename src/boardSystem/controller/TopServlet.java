@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 
-import boardSystem.beans.BoardUserMessage;
+import boardSystem.beans.UserMessage;
 import boardSystem.beans.Comments;
-import boardSystem.service.BoardMessageService;
+import boardSystem.service.MessageService;
 
 @WebServlet(urlPatterns = { "/index.jsp" })
 public class TopServlet extends HttpServlet {
@@ -42,21 +42,21 @@ public class TopServlet extends HttpServlet {
 
 
 		if(request.getParameter("category") == null || request.getParameter("category") ==""){
-			List<BoardUserMessage> refineMessages = new BoardMessageService().getMessage(startDate , endDate);
+			List<UserMessage> refineMessages = new MessageService().getMessage(startDate , endDate);
 			request.setAttribute("messages", refineMessages);
 
 		}else{
 //			BoardUserMessage refine = new BoardUserMessage();
 //			refine.setCategory(request.getParameter("category"));
 
-			List<BoardUserMessage> refineCategory = new BoardMessageService().refine(category);
+			List<UserMessage> refineCategory = new MessageService().refine(category);
 			System.out.println(request.getParameter("category") );
 			request.setAttribute("messages", refineCategory);
 		}
 
 
 
-		List<Comments> comments = new BoardMessageService().getComment();
+		List<Comments> comments = new MessageService().getComment();
 			request.setAttribute("comments", comments);
 
 		request.getRequestDispatcher("boardTop.jsp").forward(request, response);

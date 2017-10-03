@@ -5,18 +5,18 @@ import static boardSystem.utils.BoardDBUtil.*;
 
 import java.sql.Connection;
 
-import boardSystem.beans.BoardUser;
-import boardSystem.dao.BoardUserDao;
+import boardSystem.beans.User;
+import boardSystem.dao.UserDao;
 
 public class AccountService {
 
-	public void account(BoardUser user) {
+	public void account(User user) {
 
 		Connection connection = null;
 		try {
 			connection = getConnection();
 
-			BoardUserDao userDao = new BoardUserDao();
+			UserDao userDao = new UserDao();
 			userDao.account(connection, user);
 
 			commit(connection);

@@ -17,11 +17,11 @@
 <div class="header">
 	<c:if test="${ empty loginUser }">
 	<br>アクセス権限がありません。<br>
-		<a href="boardSettings">ユーザー管理</a>
-		<a href="boardLogout">ログアウト</a>
+		<a href="settings">ユーザー管理</a>
+		<a href="logout">ログアウト</a>
 	</c:if>
 	<c:if test="${ not empty loginUser }">
-		<a href="boardSignup">新規登録</a>
+		<a href="signup">新規登録</a>
 		<a href="./">ホーム</a>
 	</c:if>
 </div>
@@ -34,7 +34,7 @@
 		<div class="users">
 			<c:forEach items="${users}" var="user">
 			<div class="user">
-				<form action="boardSettings" method="GET" >
+				<form action="settings" method="GET" >
 				<div class="user-profile">
 					<span class="name"><c:out value="${user.name}" /></span><br>
 					<span class="blanch"><c:out value="${user.branchName}" /></span><br>

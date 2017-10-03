@@ -13,11 +13,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
-import boardSystem.beans.BoardUser;
-import boardSystem.service.BoardUserService;
+import boardSystem.beans.User;
+import boardSystem.service.UserService;
 
 //URLパターンを指定するアノテーション
-@WebServlet(urlPatterns = { "/boardSignup" })
+@WebServlet(urlPatterns = { "/signup" })
 public class SignUpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -25,7 +25,7 @@ public class SignUpServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
-		request.getRequestDispatcher("boardSignUp.jsp").forward(request, response);
+		request.getRequestDispatcher("signup.jsp").forward(request, response);
 	}
 
 	@Override
@@ -37,19 +37,19 @@ public class SignUpServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		if (isValid(request, messages) == true) {
 
-			BoardUser user = new BoardUser();
+			User user = new User();
 			user.setLoginId(request.getParameter("login_id"));
 			user.setName(request.getParameter("name"));
 			user.setBranchId(Integer.parseInt(request.getParameter("branch_id")));
 			user.setDepartmentId(Integer.parseInt(request.getParameter("department_id")));
 			user.setPassword(request.getParameter("password"));
 
-			new BoardUserService().register(user);
+			new UserService().register(user);
 
 			response.sendRedirect("./");
 		} else {
 			session.setAttribute("errorMessages", messages);
-			response.sendRedirect("boardSignup");
+			response.sendRedirect("signup");
 		}
 	}
 
@@ -59,7 +59,7 @@ public class SignUpServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String checkPassword =request.getParameter("password2");
 
-		if (isCheckId(request) == true) {
+		if (isCheckId(request) != null) {
 			messages.add("すでに使用されているログインIDです");
 		}
 
@@ -96,19 +96,19 @@ public class SignUpServlet extends HttpServlet {
 		}
 	}
 
-	private boolean isCheckId(HttpServletRequest request) {
+	private User isCheckId(HttpServletRequest request) {
 
-		BoardUser user = new BoardUser();
+		User user = new User();
 		user.setLoginId(request.getParameter("login_id"));
 
-		BoardUserService UserService = new BoardUserService();
+		UserService UserService = new UserService();
 		UserService.checkId(user);
 
 		// IDが既に利用されていないか確認
-		if (UserService.checkId(user) == true) {
-			return true;
+		if (UserService.checkId(user) == null) {
+			return null;
 		} else {
-			return false;
+			return user;
 		}
 
 

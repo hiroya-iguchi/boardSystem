@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import boardSystem.beans.BoardMessage;
-import boardSystem.beans.BoardUser;
-import boardSystem.service.BoardMessageService;
+import boardSystem.beans.Message;
+import boardSystem.beans.User;
+import boardSystem.service.MessageService;
 
 @WebServlet(urlPatterns = { "/delete" })
 
@@ -28,13 +28,13 @@ public class DeleteServlet extends HttpServlet {
 
 		List<String> messages = new ArrayList<String>();
 
-			BoardUser user = (BoardUser) session.getAttribute("loginUser");
+			User user = (User) session.getAttribute("loginUser");
 
-			BoardMessage message = new BoardMessage();
+			Message message = new Message();
 			message.setUserId(user.getId());
 			message.setId(Integer.parseInt(request.getParameter("id")));
 
-			new BoardMessageService().delete(message);
+			new MessageService().delete(message);
 
 			response.sendRedirect("./");
 

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import boardSystem.beans.BoardUser;
+import boardSystem.beans.User;
 import boardSystem.service.AccountService;
 
 @WebServlet(urlPatterns = { "/account" })
@@ -23,8 +23,8 @@ public class AccountServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-			BoardUser user = (BoardUser) session.getAttribute("loginUser");
-			BoardUser working = new BoardUser();
+			User user = (User) session.getAttribute("loginUser");
+			User working = new User();
 			working.setUserId(user.getId());
 			working.setId(Integer.parseInt(request.getParameter("id")));
 			working.setIsWorking(Integer.parseInt(request.getParameter("working")));

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import boardSystem.exception.BoardIORuntimeException;
+import boardSystem.exception.IORuntimeException;
 
 /**
  * ストリーム関係のユーティリティー
@@ -25,7 +25,7 @@ public class BoardStreamUtil {
 				output.write(buffer, 0, n);
 			}
 		} catch (IOException e) {
-			throw new BoardIORuntimeException(e);
+			throw new IORuntimeException(e);
 		}
 
 	}

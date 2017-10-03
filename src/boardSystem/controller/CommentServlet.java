@@ -13,9 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
-import boardSystem.beans.BoardUser;
+import boardSystem.beans.User;
 import boardSystem.beans.Comments;
-import boardSystem.service.BoardMessageService;
+import boardSystem.service.MessageService;
 
 @WebServlet(urlPatterns = { "/comment" })
 
@@ -32,7 +32,7 @@ public class CommentServlet extends HttpServlet {
 		List<String> comments = new ArrayList<String>();
 
 		if (isValid(request, comments) == true) {
-			BoardUser user = (BoardUser) session.getAttribute("loginUser");
+			User user = (User) session.getAttribute("loginUser");
 
 			Comments comment = new Comments();
 			comment.setText(request.getParameter("text"));
@@ -41,7 +41,7 @@ public class CommentServlet extends HttpServlet {
 			comment.setUserId(user.getId());
 			comment.setMessageId(Integer.parseInt(request.getParameter("message_id")));
 
-			new BoardMessageService().newComment(comment);
+			new MessageService().newComment(comment);
 
 			response.sendRedirect("./");
 		} else {

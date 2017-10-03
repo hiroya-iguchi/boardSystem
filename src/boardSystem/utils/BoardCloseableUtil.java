@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import boardSystem.exception.BoardIORuntimeException;
-import boardSystem.exception.BoardSQLRuntimeException;
+import boardSystem.exception.IORuntimeException;
+import boardSystem.exception.SQLRuntimeException;
 
 public class BoardCloseableUtil {
 
@@ -21,7 +21,7 @@ public class BoardCloseableUtil {
 		try {
 			closeable.close();
 		} catch (IOException e) {
-			throw new BoardIORuntimeException(e);
+			throw new IORuntimeException(e);
 		}
 	}
 
@@ -32,7 +32,7 @@ public class BoardCloseableUtil {
 		try {
 			connection.close();
 		} catch (SQLException e) {
-			throw new BoardSQLRuntimeException(e);
+			throw new SQLRuntimeException(e);
 		}
 	}
 
@@ -43,7 +43,7 @@ public class BoardCloseableUtil {
 		try {
 			statement.close();
 		} catch (SQLException e) {
-			throw new BoardSQLRuntimeException(e);
+			throw new SQLRuntimeException(e);
 		}
 	}
 
@@ -54,7 +54,7 @@ public class BoardCloseableUtil {
 		try {
 			rs.close();
 		} catch (SQLException e) {
-			throw new BoardSQLRuntimeException(e);
+			throw new SQLRuntimeException(e);
 		}
 	}
 }

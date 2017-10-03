@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import boardSystem.beans.BoardMessage;
-import boardSystem.beans.BoardUser;
-import boardSystem.service.BoardMessageService;
+import boardSystem.beans.Message;
+import boardSystem.beans.User;
+import boardSystem.service.MessageService;
 
 @WebServlet(urlPatterns = { "/commentDelete" })
 
@@ -24,14 +24,14 @@ public class CommentDeleteServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-			BoardUser user = (BoardUser) session.getAttribute("loginUser");
+			User user = (User) session.getAttribute("loginUser");
 
-			BoardMessage message = new BoardMessage();
+			Message message = new Message();
 			message.setUserId(user.getId());
 			System.out.println(request.getParameter("id"));
 			message.setId(Integer.parseInt(request.getParameter("id")));
 
-			new BoardMessageService().commentDelete(message);
+			new MessageService().commentDelete(message);
 
 			response.sendRedirect("./");
 

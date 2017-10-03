@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import boardSystem.beans.BoardUser;
-import boardSystem.service.BoardUserService;
+import boardSystem.beans.User;
+import boardSystem.service.UserService;
 
 @WebServlet(urlPatterns = { "/management" })
 public class ManagementServlet extends HttpServlet {
@@ -21,10 +21,10 @@ public class ManagementServlet extends HttpServlet {
 			HttpServletResponse response) throws IOException, ServletException {
 
 
-		List<BoardUser> users = new BoardUserService().getAllUser();
-		for (BoardUser s : users) {
-			s.setBranchName(new BoardUserService().getSelectBranch(s.getBranchId()));
-			s.setDepartmentName(new BoardUserService().getSelectDepartment(s.getDepartmentId()));
+		List<User> users = new UserService().getAllUser();
+		for (User s : users) {
+			s.setBranchName(new UserService().getSelectBranch(s.getBranchId()));
+			s.setDepartmentName(new UserService().getSelectDepartment(s.getDepartmentId()));
 		}
 		request.setAttribute("users", users);
 

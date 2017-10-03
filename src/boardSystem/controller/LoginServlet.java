@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import boardSystem.beans.BoardUser;
-import boardSystem.service.BoardLoginService;
+import boardSystem.beans.User;
+import boardSystem.service.LoginService;
 
-@WebServlet(urlPatterns = { "/boardLogin" })
+@WebServlet(urlPatterns = { "/login" })
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
-		request.getRequestDispatcher("boardLogin.jsp").forward(request, response);
+		request.getRequestDispatcher("login.jsp").forward(request, response);
 	}
 
 	@Override
@@ -32,8 +32,8 @@ public class LoginServlet extends HttpServlet {
 		String id = request.getParameter("login_id");
 		String password = request.getParameter("password");
 
-		BoardLoginService loginService = new BoardLoginService();
-		BoardUser user = loginService.login(id, password);
+		LoginService loginService = new LoginService();
+		User user = loginService.login(id, password);
 
 		HttpSession session = request.getSession();
 		if (user != null) {
@@ -46,8 +46,8 @@ public class LoginServlet extends HttpServlet {
 			messages.add("ログインに失敗しました。");
 			session.setAttribute("errorMessages", messages);
 		    request.setAttribute("login_id", id);
-		    request.getRequestDispatcher("boardLogin.jsp").forward(request, response);
-		    response.sendRedirect("boardLogin");
+		    request.getRequestDispatcher("login.jsp").forward(request, response);
+		    response.sendRedirect("login");
 
 		}
 	}

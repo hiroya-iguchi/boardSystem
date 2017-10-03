@@ -27,7 +27,7 @@
 <div class="header">
 	<c:if test="${ empty loginUser }">
 
-	<form action="boardLogin" method="post"><br />
+	<form action="login" method="post"><br />
 	<label for="login_id">ログインID</label>
 	<input name="login_id" id="login_id" value = "${login_id}"/> <br />
 
@@ -42,7 +42,7 @@
 	<c:if test="${ not empty loginUser }">
 		<a href="message">新規投稿</a>
 		<a href="management">ユーザー管理</a>
-		<a href="boardLogout">ログアウト</a>
+		<a href="logout">ログアウト</a>
 	</c:if>
 </div>
 	<c:if test="${ not empty loginUser }">
@@ -81,7 +81,7 @@
 					本文：<span class="text"><c:out value="${message.text}" /></span>
 				<div class="date"><fmt:formatDate value="${message.createDate}" pattern="yyyy/MM/dd HH:mm:ss" /></div>
 
-					<c:if test="${ loginUser.id == comment.userId || loginUser.departmentId == 2 }">
+					<c:if test="${ loginUser.id == message.userId || loginUser.departmentId == 2 }">
 						<input type="submit"  value="削除" /> <br />
 						</c:if>
 						<c:if test="${ loginUser.departmentId == 3 && loginUser.branchId == comment.branchId && loginUser.id != comment.userId }">

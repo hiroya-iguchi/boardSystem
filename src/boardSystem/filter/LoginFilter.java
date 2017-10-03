@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import boardSystem.beans.BoardUser;
+import boardSystem.beans.User;
 
 @WebFilter("/*")
 public class LoginFilter implements Filter {
@@ -23,16 +23,16 @@ public class LoginFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 
 		String path = ((HttpServletRequest)request).getServletPath();
-		BoardUser user = (BoardUser)((HttpServletRequest)request).getSession().getAttribute("loginUser") ;
+		User user = (User)((HttpServletRequest)request).getSession().getAttribute("loginUser") ;
 
-		if(!path.equals("/boardLogin") ){
+		if(!path.equals("/login") ){
 
 		if (user == null || user.getIsWorking() == 0) {
-			((HttpServletResponse)response).sendRedirect("boardLogin");
+			((HttpServletResponse)response).sendRedirect("login");
 		}
 		else{
 
-			if(path.equals("/management") || path.equals("/boardSettings")){
+			if(path.equals("/management") || path.equals("/settings")){
 				if(user.getBranchId() !=1){
 					((HttpServletResponse)response).sendRedirect("./");
 				}else{

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import boardSystem.exception.BoardSQLRuntimeException;
+import boardSystem.exception.SQLRuntimeException;
 
 /**
  * DB(コネクション関係)のユーティリティー
@@ -41,7 +41,7 @@ public class BoardDBUtil {
 
 			return connection;
 		} catch (SQLException e) {
-			throw new BoardSQLRuntimeException(e);
+			throw new SQLRuntimeException(e);
 		}
 	}
 
@@ -55,7 +55,7 @@ public class BoardDBUtil {
 		try {
 			connection.commit();
 		} catch (SQLException e) {
-			throw new BoardSQLRuntimeException(e);
+			throw new SQLRuntimeException(e);
 		}
 	}
 
@@ -73,7 +73,7 @@ public class BoardDBUtil {
 		try {
 			connection.rollback();
 		} catch (SQLException e) {
-			throw new BoardSQLRuntimeException(e);
+			throw new SQLRuntimeException(e);
 		}
 	}
 

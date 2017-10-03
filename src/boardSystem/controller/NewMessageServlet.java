@@ -13,9 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
-import boardSystem.beans.BoardMessage;
-import boardSystem.beans.BoardUser;
-import boardSystem.service.BoardMessageService;
+import boardSystem.beans.Message;
+import boardSystem.beans.User;
+import boardSystem.service.MessageService;
 
 @WebServlet(urlPatterns = { "/message" })
 public class NewMessageServlet extends HttpServlet {
@@ -41,9 +41,9 @@ public class NewMessageServlet extends HttpServlet {
 
 		if (isValid(request, messages) == true) {
 
-			BoardUser user = (BoardUser) session.getAttribute("loginUser");
+			User user = (User) session.getAttribute("loginUser");
 
-			BoardMessage message = new BoardMessage();
+			Message message = new Message();
 			message.setTitle(request.getParameter("title"));
 			message.setText(request.getParameter("text"));
 			message.setCategory(request.getParameter("category"));
@@ -51,7 +51,7 @@ public class NewMessageServlet extends HttpServlet {
 			message.setDepartmentId(user.getDepartmentId());
 			message.setUserId(user.getId());
 
-			new BoardMessageService().register(message);
+			new MessageService().register(message);
 
 			response.sendRedirect("./");
 		} else {

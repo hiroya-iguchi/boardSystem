@@ -14,10 +14,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
-import boardSystem.beans.BoardUser;
-import boardSystem.service.BoardUserService;
+import boardSystem.beans.User;
+import boardSystem.service.UserService;
 
-@WebServlet(urlPatterns = { "/boardSettings" })
+@WebServlet(urlPatterns = { "/settings" })
 @MultipartConfig(maxFileSize = 100000)
 public class SettingsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -27,10 +27,10 @@ public class SettingsServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		BoardUser editUser = new BoardUserService().getUser(Integer.parseInt(request.getParameter("id")));
+		User editUser = new UserService().getUser(Integer.parseInt(request.getParameter("id")));
 		session.setAttribute("editUser", editUser);
 
-		request.getRequestDispatcher("boardSettings.jsp").forward(request, response);
+		request.getRequestDispatcher("settings.jsp").forward(request, response);
 	}
 
 	@Override
@@ -41,26 +41,26 @@ public class SettingsServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		BoardUser editUser = getEditUser(request);
+		User editUser = getEditUser(request);
 		session.setAttribute("editUser", editUser);
 
 		if (isValid(request, messages) == true) {
-				new BoardUserService().update(editUser);
+				new UserService().update(editUser);
 				session.removeAttribute("editUser");
 				response.sendRedirect("./");
 
 
 		} else {
 			session.setAttribute("errorMessages", messages);
-			request.getRequestDispatcher("boardSettings.jsp").forward(request, response);
+			request.getRequestDispatcher("settings.jsp").forward(request, response);
 		}
 	}
 
-	private BoardUser getEditUser(HttpServletRequest request)
+	private User getEditUser(HttpServletRequest request)
 			throws IOException, ServletException {
 
 		HttpSession session = request.getSession();
-		BoardUser editUser = (BoardUser) session.getAttribute("editUser");
+		User editUser = (User) session.getAttribute("editUser");
 		editUser.setName(request.getParameter("name"));
 		editUser.setLoginId(request.getParameter("login_id"));
 		editUser.setBranchId(Integer.parseInt(request.getParameter("branch_id")));
@@ -77,10 +77,39 @@ public class SettingsServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String checkPassword = request.getParameter("password2");
 		String loginId = request.getParameter("login_id");
+		int branchId = Integer.parseInt(request.getParameter("branch_id"));
+		int departmentId = Integer.parseInt(request.getParameter("department_id"));
 
-		if (isCheckId(request) == true) {
+		//ログインIDで重複かつ、idが自分のでない場合
+		if (isLoginId(request) == false && isId(request) == false) {
 			messages.add("すでに使用されているログインIDです");
 		}
+
+		if(branchId == 1 && departmentId == 3 ){
+			messages.add("支店名と部署・役職の組み合わせが不適切です");
+		}else if(branchId == 1 && departmentId == 4){
+			messages.add("支店名と部署・役職の組み合わせが不適切です");
+			}
+
+		if(branchId == 2 && departmentId == 1 ){
+			messages.add("支店名と部署・役職の組み合わせが不適切です");
+		}else if(branchId == 2 && departmentId == 2){
+			messages.add("支店名と部署・役職の組み合わせが不適切です");
+			}
+
+
+		if(branchId == 3 && departmentId == 1 ){
+			messages.add("支店名と部署・役職の組み合わせが不適切です");
+		}else if(branchId == 3 && departmentId == 2){
+			messages.add("支店名と部署・役職の組み合わせが不適切です");
+			}
+
+
+		if(branchId == 4 && departmentId == 1 ){
+			messages.add("支店名と部署・役職の組み合わせが不適切です");
+		}else if(branchId == 4 && departmentId == 2){
+			messages.add("支店名と部署・役職の組み合わせが不適切です");
+			}
 
 		if (StringUtils.isEmpty(name) == true) {
 			messages.add("名前を入力してください");
@@ -117,19 +146,31 @@ public class SettingsServlet extends HttpServlet {
 		}
 	}
 
-	private boolean isCheckId(HttpServletRequest request) {
+	private boolean isLoginId(HttpServletRequest request) {
 
-		BoardUser user = new BoardUser();
-		user.setLoginId(request.getParameter("login_id"));
 
-		BoardUserService UserService = new BoardUserService();
-		UserService.checkId(user);
+		User user = new UserService().getUser(request.getParameter("login_id"));
 
 		// IDが既に利用されていないか確認
-		if (UserService.checkId(user) == true) {
-			return true;
-		} else {
+		if (user != null) {
 			return false;
+		} else {
+			return true;
+		}
+
+
+	}
+
+	private boolean isId(HttpServletRequest request) {
+
+		User user = new UserService().getUser(request.getParameter("login_id"));
+
+
+		// IDが既に利用されていないか確認
+		if (user.getId() != Integer.parseInt(request.getParameter("id"))) {
+			return false;
+		} else {
+			return true;
 		}
 
 
