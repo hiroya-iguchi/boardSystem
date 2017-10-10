@@ -17,7 +17,7 @@ import boardSystem.service.MessageService;
 
 @WebServlet(urlPatterns = { "/delete" })
 
-public class DeleteServlet extends HttpServlet {
+public class DeleteMessageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override

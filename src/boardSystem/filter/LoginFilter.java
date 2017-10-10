@@ -23,27 +23,36 @@ public class LoginFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 
 		String path = ((HttpServletRequest)request).getServletPath();
-		User user = (User)((HttpServletRequest)request).getSession().getAttribute("loginUser") ;
 
-		if(!path.equals("/login") ){
 
-		if (user == null || user.getIsWorking() == 0) {
-			((HttpServletResponse)response).sendRedirect("login");
-		}
-		else{
+		 if(!path.equals("/login") || !path.matches(".*login.*") ){
+			 	User user = (User)((HttpServletRequest)request).getSession().getAttribute("loginUser") ;
+//				user = new UserService().getUser(user.getId(););
 
-			if(path.equals("/management") || path.equals("/settings")){
-				if(user.getBranchId() !=1){
+
+			if (user == null || user.getIsWorking() == 0) {
+
+//				if(!path.equals("./")){
+//				messages.add("ログインして下さい");
+//				session.setAttribute("errorMessages", messages);
+////				request.getRequestDispatcher("login.jsp").forward(request, response);
+//				}
+				((HttpServletResponse)response).sendRedirect("login");
+
+			}else{
+
+				if(path.equals("/management") || path.matches(".*settings.*") || path.equals("/signup") ){
+					if(user.getDepartmentId() !=1 ){
 					((HttpServletResponse)response).sendRedirect("./");
+					}
+					else{
+					chain.doFilter(request, response); // サーブレットを実行
+					}
 				}else{
 					chain.doFilter(request, response); // サーブレットを実行
 				}
-			}else{
-				chain.doFilter(request, response); // サーブレットを実行
 			}
-		}
-		}
-		else{
+		}else{
 			chain.doFilter(request, response); // サーブレットを実行
 		}
 	}

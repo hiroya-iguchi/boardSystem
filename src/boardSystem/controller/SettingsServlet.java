@@ -10,11 +10,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
+import boardSystem.beans.Branch;
+import boardSystem.beans.Department;
 import boardSystem.beans.User;
+import boardSystem.service.BranchService;
+import boardSystem.service.DepartmentService;
 import boardSystem.service.UserService;
 
 @WebServlet(urlPatterns = { "/settings" })
@@ -26,11 +29,30 @@ public class SettingsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
-		User editUser = new UserService().getUser(Integer.parseInt(request.getParameter("id")));
-		session.setAttribute("editUser", editUser);
+		List<String> messages = new ArrayList<String>();
 
-		request.getRequestDispatcher("settings.jsp").forward(request, response);
+		if(!(request.getParameter("id")).matches("^\\d{1,3}$")){
+			messages.add("該当のユーザーが存在しません");
+			request.setAttribute("errorMessages", messages);
+//			request.getRequestDispatcher("management.jsp").forward(request, response);
+			response.sendRedirect("management");
+		}else if(new UserService().getUser(Integer.parseInt(request.getParameter("id"))) == null){
+			messages.add("該当のユーザーが存在しません");
+			request.setAttribute("errorMessages", messages);
+//			request.getRequestDispatcher("management.jsp").forward(request, response);
+			response.sendRedirect("management");
+		}
+		else{
+			List<Branch> branches = new BranchService().getBranches();
+			List<Department> departments = new DepartmentService().getDepartments();
+
+			User editUser = new UserService().getUser(Integer.parseInt(request.getParameter("id")));
+			request.setAttribute("editUser", editUser);
+			request.setAttribute("branches", branches);
+			request.setAttribute("departments", departments);
+
+			request.getRequestDispatcher("settings.jsp").forward(request, response);
+		}
 	}
 
 	@Override
@@ -39,19 +61,20 @@ public class SettingsServlet extends HttpServlet {
 
 		List<String> messages = new ArrayList<String>();
 
-		HttpSession session = request.getSession();
-
 		User editUser = getEditUser(request);
-		session.setAttribute("editUser", editUser);
+		request.setAttribute("editUser", editUser);
 
 		if (isValid(request, messages) == true) {
-				new UserService().update(editUser);
-				session.removeAttribute("editUser");
-				response.sendRedirect("./");
-
+			new UserService().update(editUser);
+			request.removeAttribute("editUser");
+			response.sendRedirect("management");
 
 		} else {
-			session.setAttribute("errorMessages", messages);
+			List<Branch> branches = new BranchService().getBranches();
+			List<Department> departments = new DepartmentService().getDepartments();
+			request.setAttribute("branches", branches);
+			request.setAttribute("departments", departments);
+			request.setAttribute("errorMessages", messages);
 			request.getRequestDispatcher("settings.jsp").forward(request, response);
 		}
 	}
@@ -59,14 +82,16 @@ public class SettingsServlet extends HttpServlet {
 	private User getEditUser(HttpServletRequest request)
 			throws IOException, ServletException {
 
-		HttpSession session = request.getSession();
-		User editUser = (User) session.getAttribute("editUser");
-		editUser.setName(request.getParameter("name"));
-		editUser.setLoginId(request.getParameter("login_id"));
-		editUser.setBranchId(Integer.parseInt(request.getParameter("branch_id")));
-		editUser.setDepartmentId(Integer.parseInt(request.getParameter("department_id")));
-		editUser.setPassword(request.getParameter("password"));
-		return editUser;
+		User editUser = new User();
+			editUser.setId(Integer.parseInt(request.getParameter("id")));
+			editUser.setName(request.getParameter("name"));
+			editUser.setLoginId(request.getParameter("login_id"));
+			editUser.setBranchId(Integer.parseInt(request.getParameter("branch_id")));
+			editUser.setDepartmentId(Integer.parseInt(request.getParameter("department_id")));
+			editUser.setBranchName(request.getParameter("branchName"));
+			editUser.setDepartmentName(request.getParameter("departmentName"));
+			editUser.setPassword(request.getParameter("password"));
+			return editUser;
 	}
 
 
@@ -85,31 +110,12 @@ public class SettingsServlet extends HttpServlet {
 			messages.add("すでに使用されているログインIDです");
 		}
 
-		if(branchId == 1 && departmentId == 3 ){
-			messages.add("支店名と部署・役職の組み合わせが不適切です");
-		}else if(branchId == 1 && departmentId == 4){
-			messages.add("支店名と部署・役職の組み合わせが不適切です");
-			}
+		if (StringUtils.isEmpty(loginId) == true) {
+			messages.add("ログインIDを入力してください");
+		}else if(!loginId.matches("^[0-9a-zA-Z]{6,20}$") ){
+			messages.add("ログインIDは半角英数字で6文字以上20文字以下で入力してください");
 
-		if(branchId == 2 && departmentId == 1 ){
-			messages.add("支店名と部署・役職の組み合わせが不適切です");
-		}else if(branchId == 2 && departmentId == 2){
-			messages.add("支店名と部署・役職の組み合わせが不適切です");
-			}
-
-
-		if(branchId == 3 && departmentId == 1 ){
-			messages.add("支店名と部署・役職の組み合わせが不適切です");
-		}else if(branchId == 3 && departmentId == 2){
-			messages.add("支店名と部署・役職の組み合わせが不適切です");
-			}
-
-
-		if(branchId == 4 && departmentId == 1 ){
-			messages.add("支店名と部署・役職の組み合わせが不適切です");
-		}else if(branchId == 4 && departmentId == 2){
-			messages.add("支店名と部署・役職の組み合わせが不適切です");
-			}
+		}
 
 		if (StringUtils.isEmpty(name) == true) {
 			messages.add("名前を入力してください");
@@ -123,22 +129,40 @@ public class SettingsServlet extends HttpServlet {
 
 		}
 
-		if(!password.matches("^[0-9a-zA-Z]{6,20}$") && StringUtils.isEmpty(password) != true){
-			messages.add("パスワードは半角英数字で6文字以上20文字以下で入力してください");
+		if(!password.matches("^[\\p{Punct}0-9a-zA-Z]{6,20}$") && StringUtils.isEmpty(password) != true){
+			messages.add("パスワードは半角英数字および記号で6文字以上20文字以下で入力してください");
 
 		}else if(!(password.equals(checkPassword))){
 			messages.add("パスワードが一致しません");
 
 		}
 
-		if (StringUtils.isEmpty(loginId) == true) {
-			messages.add("ログインIDを入力してください");
-		}else if(!loginId.matches("^[\\p{Punct}0-9a-zA-Z]{6,20}$") ){
-			messages.add("ログインIDは半角英数字および記号で6文字以上20文字以下で入力してください");
-
+		if(branchId == 1 ){
+			if(departmentId == 3 || departmentId == 4){
+				messages.add("支店名と部署・役職の組み合わせが不適切です");
+			}
 		}
 
-		// TODO アカウントが既に利用されていないか、メールアドレスが既に登録されていないかなどの確認も必要
+		if(branchId == 2  ){
+			if(departmentId == 1 || departmentId == 2){
+				messages.add("支店名と部署・役職の組み合わせが不適切です");
+			}
+		}
+
+
+		if(branchId == 3 ){
+			if(departmentId == 1 || departmentId == 2){
+				messages.add("支店名と部署・役職の組み合わせが不適切です");
+			}
+		}
+
+
+		if(branchId == 4 ){
+			if(departmentId == 1 || departmentId == 2){
+				messages.add("支店名と部署・役職の組み合わせが不適切です");
+			}
+		}
+
 		if (messages.size() == 0) {
 			return true;
 		} else {

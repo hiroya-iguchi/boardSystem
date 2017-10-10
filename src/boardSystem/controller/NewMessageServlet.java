@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 
 import boardSystem.beans.Message;
 import boardSystem.beans.User;
+import boardSystem.beans.UserMessage;
 import boardSystem.service.MessageService;
 
 @WebServlet(urlPatterns = { "/message" })
@@ -25,6 +26,23 @@ public class NewMessageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
+		String startDate = "2017-09-01 00:00:00";
+		String endDate ="2018-09-01 00:00:00";
+		String category = null ;
+		List<UserMessage> messages = new MessageService().getMessage(startDate, endDate, category);
+		ArrayList<String> categorys = new ArrayList<String>();
+		for(UserMessage message : messages){
+			boolean boo = true;
+			for(String str : categorys){
+				if(message.getCategory().equals(str)){
+					boo = false;
+				}
+			}
+			if(boo){
+				categorys.add(message.getCategory());
+			}
+		}
+		request.setAttribute("categorys", categorys);
 		request.getRequestDispatcher("message.jsp").forward(request, response);
 	}
 
@@ -55,7 +73,7 @@ public class NewMessageServlet extends HttpServlet {
 
 			response.sendRedirect("./");
 		} else {
-			session.setAttribute("errorMessages", messages);
+			request.setAttribute("errorMessages", messages);
 			request.setAttribute("title", title);
 			request.setAttribute("text", text);
 			request.setAttribute("category", category);
@@ -70,23 +88,24 @@ public class NewMessageServlet extends HttpServlet {
 		String title = request.getParameter("title");
 		String category = request.getParameter("category");
 
-		if (text.matches("^[ 　¥t¥n¥x0B¥f¥r]+$") || StringUtils.isEmpty(text) == true) {
-			messages.add("本文を入力してください");
-		}else if(!(text.length() <= 1000)){
-			messages.add("本文は1000文字以内で入力してください");
-		}
-
-		if (title.matches("^[ 　¥t¥n¥x0B¥f¥r]+$") || StringUtils.isEmpty(title) == true) {
+		if (StringUtils.isBlank(title)) {
 			messages.add("件名を入力してください");
 		}else if(!(title.length() <= 30)){
 			messages.add("件名は30文字以内で入力してください");
 		}
 
-		if (category.matches("^[ 　¥t¥n¥x0B¥f¥r]+$") || StringUtils.isEmpty(category) == true) {
+		if (StringUtils.isBlank(category)) {
 			messages.add("カテゴリーを入力してください");
 		}else if(!(category.length() <= 10)){
 			messages.add("カテゴリーは10文字以内で入力してください");
 		}
+
+		if (StringUtils.isBlank(text)) {
+			messages.add("本文を入力してください");
+		}else if(!(text.length() <= 1000)){
+			messages.add("本文は1000文字以内で入力してください");
+		}
+
 
 		if (messages.size() == 0) {
 			return true;

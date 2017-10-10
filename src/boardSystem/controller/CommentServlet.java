@@ -13,9 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
-import boardSystem.beans.User;
 import boardSystem.beans.Comments;
-import boardSystem.service.MessageService;
+import boardSystem.beans.User;
+import boardSystem.service.CommentService;
 
 @WebServlet(urlPatterns = { "/comment" })
 
@@ -41,7 +41,7 @@ public class CommentServlet extends HttpServlet {
 			comment.setUserId(user.getId());
 			comment.setMessageId(Integer.parseInt(request.getParameter("message_id")));
 
-			new MessageService().newComment(comment);
+			new CommentService().newComment(comment);
 
 			response.sendRedirect("./");
 		} else {
@@ -54,7 +54,7 @@ public class CommentServlet extends HttpServlet {
 
 		String text = request.getParameter("text");
 
-		if(text.matches("^[ 　¥t¥n¥x0B¥f¥r]+$") || StringUtils.isEmpty(text) == true ){
+		if(StringUtils.isBlank(text)){
 			comments.add("コメントを入力してください");
 		}
 

@@ -22,19 +22,12 @@ public class ManagementServlet extends HttpServlet {
 
 
 		List<User> users = new UserService().getAllUser();
+
 		for (User s : users) {
 			s.setBranchName(new UserService().getSelectBranch(s.getBranchId()));
 			s.setDepartmentName(new UserService().getSelectDepartment(s.getDepartmentId()));
 		}
 		request.setAttribute("users", users);
-
-
-//		List<Branch> branches = new BoardUserService().getAllBranch();
-//		request.setAttribute("branches", branches);
-//
-//		List<Department> departments = new BoardUserService().getAllDepartment();
-//		request.setAttribute("departments", departments);
-
 		request.getRequestDispatcher("management.jsp").forward(request, response);
 	}
 }

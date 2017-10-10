@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import boardSystem.beans.Message;
+import boardSystem.beans.Comments;
 import boardSystem.beans.User;
-import boardSystem.service.MessageService;
+import boardSystem.service.CommentService;
 
 @WebServlet(urlPatterns = { "/commentDelete" })
 
-public class CommentDeleteServlet extends HttpServlet {
+public class DeleteCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -26,12 +26,11 @@ public class CommentDeleteServlet extends HttpServlet {
 
 			User user = (User) session.getAttribute("loginUser");
 
-			Message message = new Message();
-			message.setUserId(user.getId());
-			System.out.println(request.getParameter("id"));
-			message.setId(Integer.parseInt(request.getParameter("id")));
+			Comments comment = new Comments();
+			comment.setUserId(user.getId());
+			comment.setId(Integer.parseInt(request.getParameter("id")));
 
-			new MessageService().commentDelete(message);
+			new CommentService().commentDelete(comment);
 
 			response.sendRedirect("./");
 

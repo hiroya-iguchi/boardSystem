@@ -1,0 +1,134 @@
+/* Fonts */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);
+
+/* fontawesome */
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+[class*="fontawesome-"]:before {
+  font-family: 'FontAwesome', sans-serif;
+}
+
+/* Simple Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* body */
+body {
+  background: #ffffff;
+  color: #000000;
+  font: 400 87.5%/1.5em 'Open Sans', sans-serif;
+}
+
+/* Form Layout */
+.main-contents {
+  background: #ffffff;
+  margin: 0px auto;
+  padding: 0 1em;
+  max-width: 770px;
+  height:600px;
+}
+
+
+h1 {
+  text-align: center;
+  padding: 1em 0;
+}
+
+.button-panel {
+  margin: 0.5em 0 0;
+  width: 40px;
+  margin:auto;
+}
+
+.button-panel .stop_button {
+  background:  #ee3e52;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  height: 25px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.0em;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background 0.3s ease-in-out;
+  width: 40px;
+  margin:auto;
+}
+
+.button-panel .resume_button {
+  background: #4b91b6;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  height: 25px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.0em;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background 0.3s ease-in-out;
+  width: 40px;
+  margin:auto;
+}
+
+.button-panel .setting_button {
+  background: #919191;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  height: 25px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.0em;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background 0.3s ease-in-out;
+  width: 40px;
+  margin:auto;
+}
+
+.stop_button:hover {
+  background: #f16272;
+}
+
+.resume_button:hover {
+  background: #619dbe;
+}
+
+.setting_button:hover {
+  background: #a7a7a7;
+}
+
+.errorMessages {
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	color: red;
+}
+
+
+
+.header{
+
+}
+
+.item {
+	width:16%;
+	float:left;
+	text-align:center;
+	height:100%;
+}
+
+.header a{
+	text-decoration: none;
+	color: black;
+	float:right;
+}
+
+.header a:hover{
+	 color: #5f5f5f;
+}
+
+h1{
+	padding-top:100px;
+}

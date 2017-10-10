@@ -1,0 +1,199 @@
+/* Fonts */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);
+
+/* fontawesome */
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+[class*="fontawesome-"]:before {
+  font-family: 'FontAwesome', sans-serif;
+}
+
+/* Simple Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* body */
+body {
+  background: #ffffff;
+  color: #000000;
+  font: 400 87.5%/1.5em 'Open Sans', sans-serif;
+}
+
+/* Form Layout */
+.main-contents {
+  background:#ffffff;
+  margin:0 auto;
+  padding: 0 1em;
+}
+
+.button-panel {
+  margin: 0.5em;
+}
+
+.button-panel .button {
+  background: #4b91b6;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  height: 25px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.0em;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background 0.3s ease-in-out;
+  padding: 0 3px;
+  width:50px
+}
+
+.button-panel .comment-button {
+  background: #4b91b6;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  height: 30px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.0em;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background 0.3s ease-in-out;
+  padding: 0 5px;
+  width:90px;
+}
+
+
+.button-panel .delete-button {
+  background: #bbbbbb;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  height: 20px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.0em;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background 0.3s ease-in-out;
+  padding: 0 3px;
+}
+
+.button:hover {
+  background:  #619dbe;
+}
+
+.comment-button:hover {
+  background: #619dbe;
+}
+
+
+.delete-button:hover {
+  background:  #f598a2;
+}
+
+.errorMessages {
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	color: red;
+}
+
+
+
+.header {
+	float:right;
+	margin-top:5px;
+	margin-right:15px;
+	margin-bottom:20px;
+}
+
+.profile{
+	padding-top:50px;
+	margin-bottom:30px;
+
+}
+
+.header a{
+	 text-decoration: none;
+	 color: black;
+}
+
+.header a:hover{
+	 color: #5f5f5f;
+}
+
+.refine{
+	margin: 35px 10px;;
+	padding: 10px 20px;
+	background-color:#eaeaea;
+	max-width:600px;
+}
+
+.refine #category{
+	height:20px;
+	margin-bottom:5px;
+}
+
+.refine #date{
+	height:20px;
+	margin-bottom:5px;
+}
+
+.message{
+	margin: 10px 10px;
+	word-break: break-all;
+	background-color:#ffffff;
+	padding: 10px 5px 5px 10px;
+	border: 1.5px solid #444444;
+	max-width:600px;
+
+}
+
+.message .date{
+	padding-left:420px;
+}
+
+.message .title{
+	font-size:16px;
+	font-weight: bold;
+	text-decoration:none;
+	padding-bottom:1px;
+}
+
+.message .category{
+	padding-top:4px;
+}
+
+.message .delete_button{
+	margin-top:-60px;
+	margin-left:673px;
+}
+.comments{
+	margin: 0px 10px;
+	word-break: break-all;
+	background-color:#ffffff;
+ 	position: relative;
+  	border: 1.5px solid #bbbbbb;
+  	padding: 0.5em 0.5em;
+  	margin-top:15px;
+  	max-width:600px;
+}
+
+.comments .date{
+	padding-left:420px;
+}
+
+
+.comments .delete_button{
+	margin-top:-50px;
+	margin-left:680px;
+}
+
+.comment_form{
+	border-bottom-style: ridge;
+	padding: 20px 0px 80px 0px;
+}
+
+.comment_form .comment-box{
+	height: 50px;
+	width: 100%;
+}

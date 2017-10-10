@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
 
 			List<String> messages = new ArrayList<String>();
 			messages.add("ログインに失敗しました。");
-			session.setAttribute("errorMessages", messages);
+			request.setAttribute("errorMessages", messages);
 		    request.setAttribute("login_id", id);
 		    request.getRequestDispatcher("login.jsp").forward(request, response);
 		    response.sendRedirect("login");
