@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -29,17 +30,22 @@ public class SettingsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		List<String> messages = new ArrayList<String>();
 
-		if(!(request.getParameter("id")).matches("^\\d{1,3}$")){
+		List<String> messages = new ArrayList<String>();
+		HttpSession session = request.getSession();
+
+		 if(request.getParameter("id")==null){
 			messages.add("該当のユーザーが存在しません");
-			request.setAttribute("errorMessages", messages);
-//			request.getRequestDispatcher("management.jsp").forward(request, response);
+			session.setAttribute("errorMessages", messages);
+			response.sendRedirect("management");
+		}
+		 else if(!(request.getParameter("id")).matches("^\\d{1,4}$")){
+			messages.add("該当のユーザーが存在しません");
+			session.setAttribute("errorMessages", messages);
 			response.sendRedirect("management");
 		}else if(new UserService().getUser(Integer.parseInt(request.getParameter("id"))) == null){
 			messages.add("該当のユーザーが存在しません");
-			request.setAttribute("errorMessages", messages);
-//			request.getRequestDispatcher("management.jsp").forward(request, response);
+			session.setAttribute("errorMessages", messages);
 			response.sendRedirect("management");
 		}
 		else{
@@ -132,7 +138,7 @@ public class SettingsServlet extends HttpServlet {
 		if(!password.matches("^[\\p{Punct}0-9a-zA-Z]{6,20}$") && StringUtils.isEmpty(password) != true){
 			messages.add("パスワードは半角英数字および記号で6文字以上20文字以下で入力してください");
 
-		}else if(!(password.equals(checkPassword))){
+		}else if(!password.equals(checkPassword)){
 			messages.add("パスワードが一致しません");
 
 		}

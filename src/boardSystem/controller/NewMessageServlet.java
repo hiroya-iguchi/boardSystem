@@ -65,6 +65,7 @@ public class NewMessageServlet extends HttpServlet {
 			message.setTitle(request.getParameter("title"));
 			message.setText(request.getParameter("text"));
 			message.setCategory(request.getParameter("category"));
+//			message.setName(user.getName());
 			message.setBranchId(user.getBranchId());
 			message.setDepartmentId(user.getDepartmentId());
 			message.setUserId(user.getId());
@@ -98,6 +99,10 @@ public class NewMessageServlet extends HttpServlet {
 			messages.add("カテゴリーを入力してください");
 		}else if(!(category.length() <= 10)){
 			messages.add("カテゴリーは10文字以内で入力してください");
+		}
+		String[] str = category.split("[　 ]");
+		if (str.length > 1) {
+			messages.add("カテゴリーに空白は使用できません");
 		}
 
 		if (StringUtils.isBlank(text)) {

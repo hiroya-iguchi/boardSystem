@@ -1,6 +1,6 @@
 package boardSystem.dao;
 
-import static boardSystem.utils.BoardCloseableUtil.*;
+import static boardSystem.utils.CloseableUtil.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -262,7 +262,6 @@ public class UserDao {
 			ps = connection.prepareStatement(sql.toString());
 
 			ps.setString(1, user.getLoginId());
-			System.out.println(user.getLoginId());
 			ps.setString(2, user.getName());
 			ps.setInt(3, user.getBranchId());
 			ps.setInt(4, user.getDepartmentId());

@@ -1,7 +1,7 @@
 package boardSystem.service;
 
-import static boardSystem.utils.BoardCloseableUtil.*;
-import static boardSystem.utils.BoardDBUtil.*;
+import static boardSystem.utils.CloseableUtil.*;
+import static boardSystem.utils.DBUtil.*;
 
 import java.sql.Connection;
 

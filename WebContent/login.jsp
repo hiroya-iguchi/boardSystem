@@ -24,18 +24,18 @@
 		</c:if>
 
 
-			<form action="login" method="post"><br />
-				<label for="login_id">ログインID</label>
+			<form action="login" method="post">
+				<label for="login_id">ログインID<br /></label>
 				<input name="login_id" id="login_id" value = "${login_id}"/> <br />
 
-				<label for="password">パスワード</label>
+				<label for="password">パスワード<br /></label>
 				<input name="password" type="password" id="password"/> <br />
 
-				<input type="submit" value="ログイン" /> <br />
-
+				<div class ="button-panel">
+				<input type="submit" class="button"  value="ログイン" /> <br />
+				</div>
 			</form>
 
-		<div class="copyright">Copyright(c)Hiroya Iguchi</div>
 	</div>
 </body>
 </html>

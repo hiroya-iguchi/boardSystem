@@ -1,6 +1,6 @@
 package boardSystem.dao;
 
-import static boardSystem.utils.BoardCloseableUtil.*;
+import static boardSystem.utils.CloseableUtil.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

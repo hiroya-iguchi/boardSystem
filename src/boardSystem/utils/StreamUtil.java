@@ -9,7 +9,7 @@ import boardSystem.exception.IORuntimeException;
 /**
  * ストリーム関係のユーティリティー
  */
-public class BoardStreamUtil {
+public class StreamUtil {
 
 	/**
 	 * input から outputにデータをコピーします。

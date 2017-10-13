@@ -7,22 +7,13 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>ユーザー管理画面</title>
+	<title>ユーザー管理</title>
 	<link href="./css/users.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
-<h1>ユーザー管理画面</h1>
+<h1>ユーザー管理</h1>
 <div class="main-contents">
-
-	<div class="header">
-		<c:if test="${ not empty loginUser }">
-			<a href="./">ホーム</a>
-			<a href="signup">新規登録　</a>
-		</c:if>
-	</div>
-
-<c:if test="${ not empty loginUser }">
 
 	<c:if test="${ not empty errorMessages }">
 		<div class="errorMessages">
@@ -35,11 +26,19 @@
 		<c:remove var="errorMessages" scope="session"/>
 	</c:if>
 
-		<div class="profile">
-			<div class="name"><h2><c:out value="${loginUser.name}" /></h2></div>
-			<div class="login_id"></div>
+	<div class="header"></div>
+		<c:if test="${ not empty loginUser }">
+			<a href="./">ホーム</a>
+			<a href="signup">新規登録</a>
+		</c:if>
 
-		<table border=1>
+
+<c:if test="${ not empty loginUser }">
+
+
+
+		<div class = "table">
+		<table border=1 width = "700" height="150">
 		 <tr><th>ログインID</th><th>名前</th><th>支店</th><th>部署・役職</th><th>編集</th><th>停止・復活</th></tr>
 			<tbody>
 
@@ -51,33 +50,36 @@
 					<td><div class="blanch"><c:out value="${user.branchName}" /></div></td>
 					<td><div class="department"><c:out value="${user.departmentName}" /></div></td>
 
-					<td>
+					<td><div style="height:68px; overflow:auto;">
 						<form action="settings" method="GET">
 							<div class="id">
 								<input type="hidden" name="id" value="${user.id}" />
 							</div>
-							<div class="name"></div>
-							<div class="name"></div>
-							<div class="blanch"></div>
-							<div class="department"></div>
-							　<input type="submit" value="編集" />　
+							<div class ="button-panel"><br>
+							<input type="submit" class = "setting-button" value="編集" />
+							</div>
 						</form>
+						</div>
 					</td>
 
 					<td><c:if test="${ user.id != loginUser.id }">
 							<c:if test="${ user.isWorking == 1 }">
-								<form action="account" method="post" ><br />
+								<form action="account" method="post" >
 								<span class="id"><input type ="hidden" name="working" value="${0}" /></span>
 								<span class="id"><input type ="hidden" name="id" value="${user.id}" /></span>
-								　<input type="submit" value="停止" onClick="return confirm('ユーザーを停止しますか？')"/> <br />
+								<div class ="button-panel">
+								　<input type="submit" value="停止" class = "stop-button" onClick="return confirm('ユーザーを停止しますか？')"/>
+								</div>
 								</form><br>
 							</c:if>
 
 							<c:if test="${ user.isWorking == 0 }">
-								<form action="account" method="post" ><br />
+								<form action="account" method="post" >
 								<span class="id"><input type ="hidden" name="working" value="${1}" /></span>
 								<span class="id"><input type ="hidden" name="id" value="${user.id}" /></span>
-								　<input type="submit" value="復活" onClick="return confirm('ユーザーを復活しますか？')" /> <br />
+								<div class ="button-panel">
+								　<input type="submit" value="復活" class = "resume-button" onClick="return confirm('ユーザーを復活しますか？')" />
+								</div>
 								</form><br>
 							</c:if>
 						</c:if>
@@ -92,7 +94,6 @@
 		</div>
 </c:if>
 
-<div class="copyright">Copyright(c)Hiroya Iguchi</div>
 </div>
 </body>
 </html>

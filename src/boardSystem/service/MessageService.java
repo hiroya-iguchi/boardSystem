@@ -1,7 +1,7 @@
 package boardSystem.service;
 
-import static boardSystem.utils.BoardCloseableUtil.*;
-import static boardSystem.utils.BoardDBUtil.*;
+import static boardSystem.utils.CloseableUtil.*;
+import static boardSystem.utils.DBUtil.*;
 
 import java.sql.Connection;
 import java.util.List;
@@ -83,6 +83,29 @@ public class MessageService {
 		}
 	}
 
+	public List<UserMessage> getMessage(String start_date, String end_date, String[] category) {
+
+		Connection connection = null;
+		try {
+			connection = getConnection();
+
+			UserMessageDao messageDao = new UserMessageDao();
+			List<UserMessage> ret = messageDao.getUserMessages(connection, LIMIT_NUM, start_date, end_date, category);
+
+			commit(connection);
+
+			return ret;
+		} catch (RuntimeException e) {
+			rollback(connection);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			throw e;
+		} finally {
+			close(connection);
+		}
+	}
+
 	public List<UserMessage> getMessage(String start_date, String end_date, String category) {
 
 		Connection connection = null;
@@ -105,6 +128,7 @@ public class MessageService {
 			close(connection);
 		}
 	}
+
 
 	public List<Comments> getAllComment() {
 

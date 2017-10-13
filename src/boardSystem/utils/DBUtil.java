@@ -9,12 +9,12 @@ import boardSystem.exception.SQLRuntimeException;
 /**
  * DB(コネクション関係)のユーティリティー
  */
-public class BoardDBUtil {
+public class DBUtil {
 
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://localhost/iguchi_hiroya";
 	private static final String USER = "root";
-	private static final String PASSWORD = "Better813";
+	private static final String PASSWORD = "";
 
 	static {
 

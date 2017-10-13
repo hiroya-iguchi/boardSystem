@@ -10,7 +10,7 @@ import java.sql.Statement;
 import boardSystem.exception.IORuntimeException;
 import boardSystem.exception.SQLRuntimeException;
 
-public class BoardCloseableUtil {
+public class CloseableUtil {
 
 	public static void close(Closeable closeable) {
 

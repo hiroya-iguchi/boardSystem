@@ -24,20 +24,20 @@
 		</c:if>
 
 		<form action="signup" method="post">
-			<label for="login_id">ログインID</label>
-			<input name="login_id" value = "${login_id}" id="login_id"/>（半角英数字で6文字以上20文字以下）<br />
+			<label for="login_id">ログインID （半角英数字で6～20文字）<br></label>
+			<input name="login_id" value = "${login_id}" id="login_id"/><br />
 
-			<label for="name">名前</label>
-			<input name="name" value = "${name}" id="name"/><br />（10文字以下）
+			<label for="name">名前 （10文字以下）<br></label>
+			<input name="name" value = "${name}" id="name"/><br />
 
-		    <label for="password">パスワード</label>
-			<input name="password" type="password" id="password"/>（半角英数字（記号含む）6文字以上20文字以下） <br />
+		    <label for="password">パスワード （半角英数字（記号含む）で6～20文字）<br></label>
+			<input name="password" type="password" id="password"/> <br />
 
-			<label for="password">パスワード(確認用)</label>
+			<label for="password">パスワード（確認用）<br></label>
 			<input name="password2" type="password" id="password"/><br />
 
 			<div class="form-item">
-					<label for="branch_id">支店</label>
+					<label for="branch_id">支店<br></label>
 					<select name="branch_id" class="selectpicker" >
 						<c:forEach var="branch" items="${branches}">
 							<c:if test="${branch.id == user.branchId}">
@@ -50,7 +50,7 @@
 					</select><br />
 			</div>
 				<div class="form-item">
-					<label for="department_id">部署・役職</label>
+					<label for="department_id">部署・役職<br></label>
 					<select name="department_id" class="selectpicker">
 			  			<c:forEach var="department" items="${departments}">
 							<c:if test="${department.id == user.departmentId}">
@@ -60,15 +60,14 @@
 								<option value="${department.id}">${department.name}</option>
 							</c:if>
 						</c:forEach>
-					</select><br />
-				</div><br>
-
-
-			<input type="submit" value="新規登録" /> <br />
-			<a href="management">戻る</a>
+					</select>
+				</div>
+			<div class ="button-panel">
+			<input type="submit" class ="button" value="新規登録" /> <br />
+			</div>
 		</form>
+		<a href="management" style="text-decoration: underline">戻る</a>
 
-	<div class="copyright">Copyright(c)Iguchi Hiroya</div>
 	</div>
 </body>
 </html>

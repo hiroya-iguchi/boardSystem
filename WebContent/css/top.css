@@ -20,7 +20,7 @@ body {
 /* Form Layout */
 .main-contents {
   background:#ffffff;
-  margin:0 auto;
+  margin:0 0 0 330px;
   padding: 0 1em;
 }
 
@@ -36,12 +36,27 @@ body {
   height: 25px;
   font-family: 'Open Sans', sans-serif;
   font-size: 1.0em;
-  letter-spacing: 0.05em;
   text-align: center;
   text-transform: uppercase;
   transition: background 0.3s ease-in-out;
-  padding: 0 3px;
+  padding: 0 2px;
   width:50px
+}
+
+.button-panel .reset-button {
+  background: #bbbbbb;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  height: 22px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.0em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background 0.3s ease-in-out;
+  margin:5px 0 0 0;
+  padding: 0;
+  width:100px
 }
 
 .button-panel .comment-button {
@@ -122,10 +137,10 @@ body {
 }
 
 .refine{
-	margin: 35px 10px;;
-	padding: 10px 20px;
+	margin: 35px 3px;;
+	padding: 10px 3px 5px 10px;
 	background-color:#eaeaea;
-	max-width:600px;
+	max-width:650px;
 }
 
 .refine #category{
@@ -139,17 +154,23 @@ body {
 }
 
 .message{
-	margin: 10px 10px;
+	margin: 10px 3px;
 	word-break: break-all;
 	background-color:#ffffff;
-	padding: 10px 5px 5px 10px;
+	padding: 10px 3px 5px 10px;
 	border: 1.5px solid #444444;
-	max-width:600px;
+	max-width:650px;
 
 }
 
 .message .date{
-	padding-left:420px;
+	padding-left:490px;
+	font-size:0.9em
+}
+
+.message .name{
+	padding-left:490px;
+	font-size:0.9em
 }
 
 .message .title{
@@ -167,19 +188,24 @@ body {
 	margin-top:-60px;
 	margin-left:673px;
 }
-.comments{
-	margin: 0px 10px;
+.comment{
+	margin: 0px 3px;
 	word-break: break-all;
 	background-color:#ffffff;
  	position: relative;
   	border: 1.5px solid #bbbbbb;
-  	padding: 0.5em 0.5em;
-  	margin-top:15px;
-  	max-width:600px;
+  	padding: 10px 3px 5px 10px;
+  	margin-top:7px;
+  	max-width:650px;
 }
 
 .comments .date{
-	padding-left:420px;
+	padding-left:490px;
+	font-size:0.9em
+}
+.comment .name{
+	padding-left:490px;
+	font-size:0.9em
 }
 
 
@@ -188,12 +214,9 @@ body {
 	margin-left:680px;
 }
 
-.comment_form{
-	border-bottom-style: ridge;
-	padding: 20px 0px 80px 0px;
+.tweet-box{
+  	width:650px;
 }
 
-.comment_form .comment-box{
-	height: 50px;
-	width: 100%;
-}
+
+

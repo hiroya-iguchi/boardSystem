@@ -10,19 +10,34 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>掲示板システム</title>
 	<link href="./css/top.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+ 	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+ 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+
+	<script>
+		$(function() {
+		$.datepicker.setDefaults( $.datepicker.regional[ "ja" ] );
+		$.datepicker.setDefaults({
+		});
+		$( ".datepicker" ).datepicker();
+	});
+	</script>
 </head>
 <body>
+
+
 <div class="main-contents">
 
 	<c:if test="${ not empty errorComments }">
-				<div class="errorComments">
+				<div class="errorMessages">
 				<ul>
 				<c:forEach items="${errorComments}" var="comment">
 				<li><c:out value="${comment}" />
 				</c:forEach>
 				</ul>
 				</div>
-		<c:remove var="errorComments" scope="request"/>
+		<c:remove var="errorComments" scope="session"/>
 	</c:if>
 
 	<div class="header"></div>
@@ -38,32 +53,39 @@
 				<a href="logout">ログアウト</a>
 			</c:if>
 		</c:if>
-	</div>
+
 
 	<c:if test="${ not empty loginUser }">
-		<div class="profile">
-			<div class="name"><h2><c:out value="${loginUser.name}" /></h2></div>
-		</div>
+			<h3><c:out value="${loginUser.name}" /></h3>
 	</c:if>
 
 	<div class ="refine">
 		<c:if test="${ not empty loginUser }">
 			<form method="GET" action=".">
 
-				カテゴリー<input name="category" id="category" value="${category}" list="keywords" ><br />
+				カテゴリー<input name="category" id="category" value="${strCategory}" list="keywords" >（スペースでOR検索 ※2つまで）<br />
 				<datalist id="keywords">
 					<c:forEach items="${categorys}" var="category">
 						<option value="${category}">
 		     		</c:forEach>
 		     	</datalist>
 
-				<label for="startDate">投稿日時</label>
-				<input type='date' name="startDate" id="date" value="${startDate}" /> ～
-				<label for="endDate"></label>
-				<input type='date' name="endDate" id="date" value="${endDate}"/> <br />
+				投稿日時
+				<input type='text' name="startDate" class="datepicker" id="datepicker" value="${startDate}" readonly="readonly" /> ～
+
+				<input type='text' name="endDate" class="datepicker" id="datepicker" value="${endDate}" readonly="readonly"/>
 					<div class ="button-panel">
 			  		<input type="submit" class ="button" value="検索">
 			  		</div>
+			 </form>
+
+			 <form action="./" method="get">
+					<input type="hidden" name="category"  >
+					<input type="hidden" name="start_date" >
+					<input type="hidden" name="end_date" >
+					<div class="button-panel">
+						<input type="submit" class="reset-button" value="検索リセット">
+					</div>
 			 </form>
 		</c:if>
 	</div>
@@ -72,9 +94,8 @@
 <c:if test="${ not empty loginUser }">
 	<div class="messages">
 		<c:forEach items="${messages}" var="message">
-			<div class="message-view">
-				<div class="message">
-				<form action="delete" method="post"><br />
+			<div class="message">
+				<form action="delete" method="post">
 						件名：<span class="title"><c:out value="${message.title}" /></span><br>
 						カテゴリー：<span class="category"><c:out value="${message.category}" /></span><br>
 
@@ -82,9 +103,10 @@
 						本文：<div class="text">
 								<c:forEach var="s" items="${fn:split(message.text, '
 								')}">
-	    						<c:out  value="${s}" />
+	    						<c:out  value="${s}" /><br>
 								</c:forEach></div>
-							<div class="date"><fmt:formatDate value="${message.createDate}" pattern="yyyy/MM/dd HH:mm:ss" /></div>
+								<span class="name">投稿者： <c:out value="${message.name}" /></span>
+								<div class="date"><fmt:formatDate value="${message.createDate}" pattern="yyyy/MM/dd HH:mm:ss" /></div>
 
 
 							<c:if test="${ loginUser.id == message.userId || loginUser.departmentId == 2 }">
@@ -99,23 +121,22 @@
 							</c:if>
 
 				</form>
-				</div>
 			</div>
 
 
 			<div class="comments">
 				<c:forEach items="${comments}" var="comment">
 					<c:if test="${message.id == comment.messageId}">
-						<div class="comment-view">
 							<div class="comment">
-							<form action="commentDelete" method="post"><br />
+							<form action="commentDelete" method="post">
 							    <span class="id"><input type ="hidden" name="id" value="${comment.id}" /></span>
-								<div class="text">
-									<c:forEach var="s" items="${fn:split(comment.text, '
-									')}">
-		    						<c:out  value="${s}" /><br>
-									</c:forEach></div>
-								<div class="date"><fmt:formatDate value="${comment.createDate}" pattern="yyyy/MM/dd HH:mm:ss" /></div>
+									<div class="text">
+										<c:forEach var="s" items="${fn:split(comment.text, '
+										')}">
+			    						<c:out  value="${s}" /><br>
+										</c:forEach></div>
+									<span class="name">投稿者： <c:out value="${comment.name}" /></span>
+									<div class="date"><fmt:formatDate value="${comment.createDate}" pattern="yyyy/MM/dd HH:mm:ss" /></div>
 
 								<c:if test="${ loginUser.id == comment.userId || loginUser.departmentId == 2 }">
 									<div class ="button-panel">
@@ -131,16 +152,16 @@
 
 							</form>
 							</div>
-						</div>
 					</c:if>
 				</c:forEach>
 			</div>
 
 
 			<form action="comment" method="post"><br />
-			<div class="comment">
-					<div class="comment">
+			<div class="NewComment">
+					<div class="NewComment">
 						<div class="newComment">
+						コメント（500文字以内）<br>
 				        <textarea name="text" cols="83" rows="3" class="tweet-box">${text}</textarea> <br />
 				        <span class="id"><input type ="hidden" name="message_id" value="${message.id}" /></span>
 						<div class="text">
@@ -162,6 +183,6 @@
 	</div>
 </c:if>
 
-<div class="copyright">Copyright(c)Hiroya Iguchi</div>
+</div>
 </body>
 </html>

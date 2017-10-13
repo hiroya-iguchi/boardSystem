@@ -8,7 +8,7 @@ import org.apache.commons.codec.binary.Base64;
 /**
  * 暗号化ユーティリティー
  */
-public class BoardCipherUtil {
+public class CipherUtil {
 
 	/**
 	 * SHA-256で暗号化し、バイト配列をBase64エンコーディングします。

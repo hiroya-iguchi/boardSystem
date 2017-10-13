@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import boardSystem.beans.User;
+import boardSystem.service.UserService;
 
 @WebFilter("/*")
 public class LoginFilter implements Filter {
@@ -24,22 +25,16 @@ public class LoginFilter implements Filter {
 
 		String path = ((HttpServletRequest)request).getServletPath();
 
-
-		 if(!path.equals("/login") || !path.matches(".*login.*") ){
+		 if(!path.equals("/login") && !path.matches(".*css.*")){
 			 	User user = (User)((HttpServletRequest)request).getSession().getAttribute("loginUser") ;
-//				user = new UserService().getUser(user.getId(););
-
 
 			if (user == null || user.getIsWorking() == 0) {
 
-//				if(!path.equals("./")){
-//				messages.add("ログインして下さい");
-//				session.setAttribute("errorMessages", messages);
-////				request.getRequestDispatcher("login.jsp").forward(request, response);
-//				}
 				((HttpServletResponse)response).sendRedirect("login");
 
 			}else{
+				((HttpServletRequest) request).getSession().setAttribute("loginUser", new UserService().getUser(user.getId()));
+				user = (User) ((HttpServletRequest) request).getSession().getAttribute("loginUser");
 
 				if(path.equals("/management") || path.matches(".*settings.*") || path.equals("/signup") ){
 					if(user.getDepartmentId() !=1 ){

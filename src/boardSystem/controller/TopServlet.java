@@ -27,7 +27,10 @@ public class TopServlet extends HttpServlet {
 
 		String startDate = "2017-09-01 00:00:00";
 		String endDate ="2018-09-01 00:00:00";
-		String category = null ;
+//		String category = null ;
+		String[] category = null;
+		String strCategory = request.getParameter("category");
+
 
 		if(!StringUtils.isEmpty(request.getParameter("startDate"))){
 			startDate = request.getParameter("startDate")+ " 00:00:00";
@@ -39,53 +42,40 @@ public class TopServlet extends HttpServlet {
 			request.setAttribute("endDate", request.getParameter("endDate"));
 		}
 		if(!StringUtils.isEmpty(request.getParameter("category")) ) {
-			category = request.getParameter("category");
+
+			category = request.getParameter("category").split("[　 ]");
+
+			if(category.length >= 2){
+			List<String> list = new ArrayList<String>();
+			list.add(category[0]);
+			list.add(category[1]);
+
+			}
 		}
 
-//		//カテゴリーと日付が記入されている場合の絞込み
-//		if(!StringUtils.isBlank(request.getParameter("category")) && !StringUtils.isEmpty(request.getParameter("startDate"))){
-//			List<UserMessage> DateAndCategory = new MessageService().startAndDate(category,startDate , endDate);
-//			request.setAttribute("messages", DateAndCategory);
-//			request.setAttribute("category", category);
-//
-//		}else if(!StringUtils.isBlank(request.getParameter("category")) && !StringUtils.isEmpty(request.getParameter("endDate"))){
-//			List<UserMessage> DateAndCategory = new MessageService().startAndDate(category,startDate , endDate);
-//			request.setAttribute("messages", DateAndCategory);
-//			request.setAttribute("category", category);
-//		}
-//		//カテゴリーが空欄なら日付で絞り込む
-//		else if(StringUtils.isBlank(request.getParameter("category"))){
-//			List<UserMessage> refineDate = new MessageService().getMessages(startDate , endDate);
-//			request.setAttribute("messages", refineDate);
-//
-//		}else{
-//			//日付が空欄ならカテゴリで絞り込む
-//			List<UserMessage> refineCategory = new MessageService().categorize(category);
-//			request.setAttribute("messages", refineCategory);
-//			request.setAttribute("category", category);
-//		}
+
 
 		List<UserMessage> messages = new MessageService().getMessage(startDate, endDate, category);
 		List<Comments> comments = new MessageService().getAllComment();
 //		カテゴリー一覧の取得
-				ArrayList<String> categorys = new ArrayList<String>();
-				for(UserMessage message : messages){
-					boolean boo = true;
-					for(String str : categorys){
-						if(message.getCategory().equals(str)){
-							boo = false;
-						}
-					}
-					if(boo){
-						categorys.add(message.getCategory());
+		ArrayList<String> categorys = new ArrayList<String>();
+			for(UserMessage message : messages){
+				boolean boo = true;
+				for(String str : categorys){
+					if(message.getCategory().equals(str)){
+						boo = false;
 					}
 				}
-
+				if(boo){
+					categorys.add(message.getCategory());
+				}
+			}
 
 		request.setAttribute("messages", messages);
 		request.setAttribute("comments", comments);
 		request.setAttribute("category", category);
 		request.setAttribute("categorys", categorys);
+		request.setAttribute("strCategory", strCategory);
 
 		request.getRequestDispatcher("boardTop.jsp").forward(request, response);
 	}

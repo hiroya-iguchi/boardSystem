@@ -9,6 +9,7 @@ public class Comments implements Serializable {
 	private Integer id;
 	private Integer userId;
 	private Integer messageId;
+	private String name;
 	private String text;
 	private int branchId;
 	private int departmentId;
@@ -44,6 +45,14 @@ public class Comments implements Serializable {
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	public int getBranchId() {
 		return branchId;

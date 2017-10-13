@@ -20,10 +20,12 @@ body {
 /* Form Layout */
 .main-contents {
   background: #ffffff;
+  font-size:1.2em;
   margin: 0px auto;
   padding: 0 1em;
   max-width: 770px;
   height:600px;
+  font:'Open Sans', sans-serif;
 }
 
 
@@ -32,14 +34,20 @@ h1 {
   padding: 1em 0;
 }
 
+.table {
+  text-align: center;
+  padding: 1em 0;
+  max-width:1500px
+}
+
 .button-panel {
   margin: 0.5em 0 0;
   width: 40px;
   margin:auto;
 }
 
-.button-panel .stop_button {
-  background:  #ee3e52;
+.button-panel .stop-button {
+  background:  #919191;
   border: none;
   color: #fff;
   cursor: pointer;
@@ -54,23 +62,7 @@ h1 {
   margin:auto;
 }
 
-.button-panel .resume_button {
-  background: #4b91b6;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  height: 25px;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1.0em;
-  letter-spacing: 0.05em;
-  text-align: center;
-  text-transform: uppercase;
-  transition: background 0.3s ease-in-out;
-  width: 40px;
-  margin:auto;
-}
-
-.button-panel .setting_button {
+.button-panel .resume-button {
   background: #919191;
   border: none;
   color: #fff;
@@ -86,15 +78,31 @@ h1 {
   margin:auto;
 }
 
-.stop_button:hover {
+.button-panel .setting-button {
+  background: #919191;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  height: 25px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.0em;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background 0.3s ease-in-out;
+  width: 40px;
+  margin:auto;
+}
+
+.stop-button:hover {
   background: #f16272;
 }
 
-.resume_button:hover {
+.resume-button:hover {
   background: #619dbe;
 }
 
-.setting_button:hover {
+.setting-button:hover {
   background: #a7a7a7;
 }
 
@@ -109,7 +117,10 @@ h1 {
 
 
 .header{
-
+	float:right;
+	margin-top:5px;
+	margin-right:15px;
+	margin-bottom:20px;
 }
 
 .item {

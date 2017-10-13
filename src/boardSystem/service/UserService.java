@@ -1,7 +1,7 @@
 package boardSystem.service;
 
-import static boardSystem.utils.BoardCloseableUtil.*;
-import static boardSystem.utils.BoardDBUtil.*;
+import static boardSystem.utils.CloseableUtil.*;
+import static boardSystem.utils.DBUtil.*;
 
 import java.sql.Connection;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
 
 import boardSystem.beans.User;
 import boardSystem.dao.UserDao;
-import boardSystem.utils.BoardCipherUtil;
+import boardSystem.utils.CipherUtil;
 public class UserService {
 
 	public void register(User user) {
@@ -19,7 +19,7 @@ public class UserService {
 		try {
 			connection = getConnection();
 
-			String encPassword = BoardCipherUtil.encrypt(user.getPassword());
+			String encPassword = CipherUtil.encrypt(user.getPassword());
 			user.setPassword(encPassword);
 
 
@@ -47,7 +47,7 @@ public class UserService {
 			connection = getConnection();
 
 			if(!StringUtils.isEmpty(user.getPassword())){
-				String encPassword = BoardCipherUtil.encrypt(user.getPassword());
+				String encPassword = CipherUtil.encrypt(user.getPassword());
 				user.setPassword(encPassword);
 			}
 

@@ -1,6 +1,6 @@
 package boardSystem.dao;
 
-import static boardSystem.utils.BoardCloseableUtil.*;
+import static boardSystem.utils.CloseableUtil.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,6 +51,7 @@ public class UserMessageDao {
 				int branchId = rs.getInt("branch_id");
 				int departmentId = rs.getInt("department_id");
 				String text = rs.getString("text");
+				String name = rs.getString("name");
 				Timestamp insertDate = rs.getTimestamp("created_at");
 
 				UserMessage message = new UserMessage();
@@ -62,6 +63,7 @@ public class UserMessageDao {
 				message.setInsertDate(insertDate);
 				message.setBranchId(branchId);
 				message.setDepartmentId(departmentId);
+				message.setName(name);
 
 				ret.add(message);
 			}
@@ -102,6 +104,7 @@ public class UserMessageDao {
 				int branchId = rs.getInt("branch");
 				int departmentId = rs.getInt("department");
 				String text = rs.getString("text");
+				String name = rs.getString("name");
 				Timestamp insertDate = rs.getTimestamp("created_at");
 
 				Comments comment = new Comments();
@@ -109,6 +112,7 @@ public class UserMessageDao {
 				comment.setUserId(userId);
 				comment.setMessageId(messageId);
 				comment.setText(text);
+				comment.setName(name);
 				comment.setCreateDate(insertDate);
 				comment.setBranchId(branchId);
 				comment.setDepartmentId(departmentId);
@@ -168,6 +172,45 @@ public class UserMessageDao {
 		}
 	}
 
+	public List<UserMessage> getUserMessages(Connection connection, int num, String start_date, String end_date, String[] category) {
+
+		PreparedStatement ps = null;
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT * FROM users_messages where ? <= created_at and created_at <= ?");
+			if(category != null){
+				sql.append(" and category IN (?  ");
+				if(category.length >= 2){
+					sql.append(" , ?) ");
+				}else{
+					sql.append(" ) ");
+				}
+			}
+			sql.append("ORDER BY created_at DESC limit " + num);
+
+			ps = connection.prepareStatement(sql.toString());
+			ps.setString(1, start_date);
+			ps.setString(2, end_date);
+			if(category != null){
+				ps.setString(3, category[0]);
+				if(category.length >= 2){
+					System.out.println( category[1]);
+				ps.setString(4, category[1]);
+				}
+			}
+
+			ResultSet rs = ps.executeQuery();
+			List<UserMessage> ret = toUserMessageList(rs);
+
+			return ret;
+
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
 	public List<UserMessage> getUserMessages(Connection connection, int num, String start_date, String end_date, String category) {
 
 		PreparedStatement ps = null;
@@ -175,7 +218,7 @@ public class UserMessageDao {
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT * FROM users_messages where ? <= created_at and created_at <= ?");
 			if(category != null){
-				sql.append(" and category = ? ");
+				sql.append(" and category IN (? , ?) ");
 			}
 			sql.append("ORDER BY created_at DESC limit " + num);
 

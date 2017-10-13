@@ -12,8 +12,8 @@
 
 /* body */
 body {
-  background:#ffffff;
-  color: #000000;
+  background: #ffffff;
+  color: #5e5e5e;
   font: 400 87.5%/1.5em 'Open Sans', sans-serif;
 }
 
@@ -22,14 +22,10 @@ body {
   background: #ffffff;
   margin: 8em auto;
   padding: 0 1em;
-  max-width: 370px;
+  max-width: 250px;
   border: 1.2px solid #000000;
 }
 
-h1 {
-  text-align: center;
-  padding: 1em 0;
-}
 
 form {
   padding: 1.5em 1.5em 3.0em 1.5em;
@@ -67,14 +63,14 @@ form {
   border: none;
   color: #fff;
   cursor: pointer;
-  height: 50px;
+  height: 25px;
   font-family: 'Open Sans', sans-serif;
-  font-size: 1.2em;
+  font-size: 1em;
   letter-spacing: 0.05em;
   text-align: center;
   text-transform: uppercase;
   transition: background 0.3s ease-in-out;
-  width: 100%;
+  width: 40%;
 }
 
 .button:hover {

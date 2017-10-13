@@ -25,26 +25,29 @@
 		</c:if>
 
 			<form action="message" method="post"><br />
-				 <label for="title" >件名<br /></label>
+				 <label for="title" >件名 （30文字以内）<br /></label>
 				 <input name="title" value="${title}" /> <br />
 
-				 カテゴリー<br /><input name="category" id="category" value="${category}" list="keywords" ><br />
+				  <label for="category" >カテゴリー （10文字以内）<br /></label>
+				 <input name="category" id="category" value="${category}" list="keywords" ><br />
 					<datalist id="keywords">
 						<c:forEach items="${categorys}" var="category">
 							<option value="${category}">
 			     		</c:forEach>
 			     	</datalist>
 
-				 本文<br />
+				 <label for="category" >本文（1000文字以内）<br /></label>
 				 <textarea name="text"  cols="65" rows="3" class="tweet-box">${text}</textarea>
 				 <br />
 				 <span class="id"><input type ="hidden" name="branch_id" value="${loginUser.branchId}" /></span>
 				 <span class="id"><input type ="hidden" name="department_id" value="${loginUser.departmentId}" /></span>
-				 <input type="submit" value="投稿する" />
+				 <span class="name"><input type ="hidden" name="name" value="${loginUser.name}" /></span>
+				 <div class ="button-panel">
+				 <input type="submit" class="button" value="投稿" />
+				 </div>
 			</form>
 
-			<a href="./">戻る</a>
-		<div class="copyright">Copyright(c)Hiroya Iguchi</div>
+			<a href="./" style="text-decoration: underline">戻る</a>
 	</div>
 </body>
 </html>

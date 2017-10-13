@@ -1,13 +1,13 @@
 package boardSystem.service;
 
-import static boardSystem.utils.BoardCloseableUtil.*;
-import static boardSystem.utils.BoardDBUtil.*;
+import static boardSystem.utils.CloseableUtil.*;
+import static boardSystem.utils.DBUtil.*;
 
 import java.sql.Connection;
 
 import boardSystem.beans.User;
 import boardSystem.dao.UserDao;
-import boardSystem.utils.BoardCipherUtil;
+import boardSystem.utils.CipherUtil;
 
 public class LoginService {
 
@@ -18,7 +18,7 @@ public class LoginService {
 			connection = getConnection();
 
 			UserDao userDao = new UserDao();
-			String encPassword = BoardCipherUtil.encrypt(password);
+			String encPassword = CipherUtil.encrypt(password);
 			User user = userDao
 					.getUser(connection, loginID, encPassword);
 
